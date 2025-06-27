@@ -1,0 +1,52 @@
+# SOURCE: https://install.portworx.com/3.2?operator=true&mc=false&kbver=1.31.0&ns=portworx&b=true&s=%2Fdev%2Fsdc&r=17001&c=px-cluster-fe82dca1-493f-4b5a-a379-683237e89769&osft=true&stork=true&csi=true&tel=true&st=k8s
+kind: StorageCluster
+apiVersion: core.libopenstorage.org/v1
+metadata:
+  name: px-cluster
+  namespace: portworx
+  annotations:
+    portworx.io/install-source: "https://install.portworx.com/3.2?operator=true&mc=false&kbver=1.31.0&ns=portworx&b=true&s=%2Fdev%2Fsdc&r=17001&c=px-cluster-fe82dca1-493f-4b5a-a379-683237e89769&osft=true&stork=true&csi=true&tel=true&st=k8s"
+    portworx.io/is-openshift: "true"
+    portworx.io/pvc-controller-port: "10261"
+    portworx.io/pvc-controller-secure-port: "10262"
+    portworx.io/run-on-master: "true"
+spec:
+  image: portworx/oci-monitor:3.2.3
+  imagePullPolicy: Always
+  kvdb:
+    internal: true
+  storage: {}
+  secretsProvider: k8s
+  startPort: 17001
+  stork:
+    enabled: true
+    args:
+      webhook-controller: "true"
+  autopilot:
+    enabled: true
+  csi:
+    enabled: true
+  monitoring:
+    telemetry:
+      enabled: true
+    prometheus:
+      exportMetrics: true
+  nodes:
+    - selector:
+        nodeName: esxi237.mec.gov.br
+      storage:
+        kvdbDevice: /dev/mapper/3624a93707a1d88678e63486a00385f64
+        devices:
+          - /dev/mapper/3624a93707a1d88678e63486a00385f62
+    - selector:
+        nodeName: esxi238.mec.gov.br
+      storage:
+        kvdbDevice: /dev/mapper/3624a93707a1d88678e63486a00385f67
+        devices:
+          - /dev/mapper/3624a93707a1d88678e63486a00385f63
+    - selector:
+        nodeName: esxi239.mec.gov.br
+      storage:
+        kvdbDevice: /dev/mapper/3624a93707a1d88678e63486a00385f68
+        devices:
+          - /dev/mapper/3624a93707a1d88678e63486a00385f65

@@ -1,0 +1,16 @@
+kind: HyperConverged
+apiVersion: hco.kubevirt.io/v1beta1
+metadata:
+  annotations:
+    deployOVS: "false"
+  name: kubevirt-hyperconverged
+  namespace: openshift-cnv
+spec:
+  scratchSpaceStorageClass: px-storage-vm
+  filesystemOverhead:
+    global: "0.08"
+    storageClass:
+      px-storage-vm: "0.08"
+  vmStateStorageClass: px-storage-vm
+  featureGates:
+    enableCommonBootImageImport: false #Ajustar o storageprofile e modificar para true posteriormente
